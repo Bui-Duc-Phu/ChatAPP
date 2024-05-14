@@ -1,0 +1,30 @@
+{
+  "name": "servermain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "mssql": "^10.0.2",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.0"
+  }
+}
