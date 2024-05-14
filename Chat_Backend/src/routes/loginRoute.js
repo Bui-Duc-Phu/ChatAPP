@@ -18,6 +18,4 @@ const {
 
 router_login.post('/login',checkNullFields,getLogin)
 router_login.get('/get-user/:name',getUserByName)
-
-
 module.exports = { router_login }
