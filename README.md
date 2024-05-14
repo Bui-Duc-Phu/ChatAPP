@@ -1,5 +1,5 @@
 
- <h1>Frontend: Android App using RESTful API (Retrofit)</h1>
+ <h1>Frontend: Android App kotlin using RESTful API (Retrofit)</h1>
  
  <h1>Backend: Nodejs</h1>
 
