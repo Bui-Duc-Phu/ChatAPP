@@ -173,3 +173,37 @@ function socketMiddleware(server) {
 module.exports = socketMiddleware;
 </code></pre>
 
+
+ <h2>ApiService Client</h2>
+ </code><pre>
+interface ApiService {
+    @GET("/get-user/{name}")
+    fun getUser(@Path("name") name: String): Call<User_res>
+    
+    @GET("/get-receiver/{id}")
+    fun getAllReceiver(@Path("id") id: String): Call<List<User_res>>
+
+    @GET("/get-message/{receiver_id}/{sender_id}")
+    fun getMessage(@Path("receiver_id") receiver_id: String,
+                   @Path("sender_id") sender_id: String): Call<List<Chat>>
+    
+    @POST("/sign-up")
+    fun SignUp(@Body user: User): Call<Void>
+
+    @POST("/login")
+    fun login(@Body user: User): Call<Void>
+
+    @POST("/post-message")
+    fun postMessage(@Body mess: Chat): Call<Void>
+    
+    @DELETE("/v1/deletestudent/{id}")
+    fun deleteStudent(@Path("id") id: Int): Call<Void>
+
+    @PUT("/v1/putname")
+    fun putStudent(@Body student: Chat): Call<Void>
+
+    @PATCH("/v1/updateAge")
+    fun patchStudent(@Body student: Chat): Call<Void>
+}
+</code></pre>
+
