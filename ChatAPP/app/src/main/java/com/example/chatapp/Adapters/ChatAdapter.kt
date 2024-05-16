@@ -33,6 +33,7 @@ class ChatAdapter(val context: Context, val list: List<Chat>) : RecyclerView.Ada
         holder.bind(model)
     }
 
+
     override fun getItemCount(): Int = list.size
 
     override fun getItemViewType(position: Int): Int {

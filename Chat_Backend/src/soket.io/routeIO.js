@@ -15,8 +15,23 @@ function socketMiddleware(server) {
 
    
         socket.on('key', (data) => {
-            io.to(data).emit('123', { message: 'loading server' });
+            const jsonData = JSON.parse(data);
+            const room  = jsonData.room;
+            const receiverId  = jsonData.receiver;
+            const message_send  = jsonData.message_send;
+            const receiver_name  = jsonData.receiver_name;
+            const senderId  = jsonData.senderId;
+
+            console.log("senderId   :  ",senderId)
+
+        
+            
+            io.to(room).emit('123', { message: 'loading server' });
+            io.to(receiverId).emit('new_notification',  { message_send: message_send+""}
+             , { receiver_name: receiver_name+""}
+              , { senderId: senderId+""});
         });
+        
 
         socket.on('disconnect', () => {
             printColoredConsole('red', 'A client disconnected ');

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.MyApplication
 import com.example.chatapp.Networks.Data
+import com.example.chatapp.Ultils.MySharedPreferences
 import com.example.chatapp.databinding.ActivityChatBinding
 import com.example.chatapp.models.TypeMessage
 import com.example.messengerapp.adapter.ChatAdapter
@@ -18,6 +19,8 @@ import io.socket.client.IO
 import org.json.JSONObject
 
 import io.socket.client.Socket
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.json.JSONException
 
 
@@ -45,6 +48,11 @@ class Chat : AppCompatActivity() {
         connectToServer()
 
         init_()
+
+        socket.emit("joinRoom", (receiverId?.plus(MyApplication.UID_GLOBAL)).toString())
+
+
+
 
 
 
@@ -76,6 +84,10 @@ class Chat : AppCompatActivity() {
                 println("Message List  : " + it)
                 val adapter = ChatAdapter(this,it)
                 binding.recylerview.adapter = adapter
+                val lastItemPosition = adapter.itemCount - 1
+                if (lastItemPosition >= 0) {
+                    binding.recylerview.scrollToPosition(lastItemPosition)
+                }
             }
         }
     }
@@ -85,7 +97,6 @@ class Chat : AppCompatActivity() {
         socket.on(Socket.EVENT_CONNECT) {
             println("Connected to server")
         }
-
         socket.on("123") { data ->
             data.forEachIndexed { index, item ->
                 try {
@@ -98,6 +109,10 @@ class Chat : AppCompatActivity() {
                                 println("Message List  : " + it)
                                 val adapter = ChatAdapter(this,it)
                                 binding.recylerview.adapter = adapter
+                                val lastItemPosition = adapter.itemCount - 1
+                                if (lastItemPosition >= 0) {
+                                    binding.recylerview.scrollToPosition(lastItemPosition)
+                                }
                             }
                         }
                     }
@@ -131,14 +146,22 @@ class Chat : AppCompatActivity() {
         val mess = Chat(senderId,receiverId,message,typeMessage)
         Data.postMessageMethod(this,mess){
             if(it) binding.messageEdt.setText("")
-            reconnectToServer((receiverId + MyApplication.UID_GLOBAL).toString())
+            reconnectToServer((receiverId + MyApplication.UID_GLOBAL).toString(),message)
         }
     }
 
-    private fun reconnectToServer(room:String) {
-        socket.emit("joinRoom", room)
-        val message = room
-        socket.emit("key", message)
+    private fun reconnectToServer(room:String,message:String) {
+
+        val data = mapOf(
+            "room" to room,
+            "receiver" to receiverId.toString(),
+            "message_send" to message,
+            "receiver_name" to userName,
+            "senderId"  to MyApplication.UID_GLOBAL.toString(),
+
+        )
+        val jsonString = Json.encodeToString(data)
+        socket.emit("key", jsonString)
     }
 
 

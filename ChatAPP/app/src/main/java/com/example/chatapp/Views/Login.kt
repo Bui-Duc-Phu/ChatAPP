@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chatapp.MyApplication
 import com.example.chatapp.R
+import com.example.chatapp.Ultils.MySharedPreferences
 import com.example.chatapp.databinding.ActivityLoginBinding
 import com.example.chatapp.models.User
 import com.example.restfull_api_1.Networks.RetrofitClient
@@ -52,7 +53,11 @@ class Login : AppCompatActivity() {
         val username = binding.username.text.toString().trim()
         val password = binding.password.text.toString().trim()
         login(User(0,username,password,"")){
-            getUser(username){ MyApplication.UID_GLOBAL  = it}
+            getUser(username){
+                MyApplication.UID_GLOBAL  = it
+                MySharedPreferences.putStringValue(applicationContext,"UID",MyApplication.UID_GLOBAL.toString())
+
+            }
         }
 
 
