@@ -68,25 +68,23 @@ class SocketService : Service() {
     private fun showNotification(title: String, message: String,senderId:String) {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        // Tạo Intent để mở Activity (hoặc Fragment) mong muốn khi thông báo được nhấp
+
         val intent = Intent(this, Chat::class.java)
         intent.putExtra("userId",senderId )
         intent.putExtra("userName", title)
         MySharedPreferences.getStringValue(applicationContext,"UID")
             .also { MyApplication.UID_GLOBAL = it!!.toInt() }
-        // Đặt action cho intent nếu cần thiết
         intent.action = "ACTION_WHEN_NOTIFICATION_CLICKED"
-        // Tạo PendingIntent từ intent
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
 
-        // Tạo thông báo với PendingIntent
+
         val notification = NotificationCompat.Builder(this, "your_channel_id")
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.baseline_account_circle_24)
             .setContentIntent(pendingIntent) // Đặt PendingIntent vào thông báo
-            .setAutoCancel(false) // Tự động huỷ thông báo khi được nhấp
+            .setAutoCancel(true) // Tự động huỷ thông báo khi được nhấp
             .build()
 
         // Hiển thị thông báo
